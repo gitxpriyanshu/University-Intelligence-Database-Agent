@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "uia"
+version = "0.1.0"
+description = "University Intelligence Database Agent"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx",
+    "beautifulsoup4",
+    "lxml",
+    "pydantic>=2.0",
+    "pyyaml",
+    "tenacity",
+    "python-dotenv",
+    "playwright",
+    "typer",
+    "rich",
+    "pandas",
+    "fastapi",
+    "uvicorn",
+    "pytest",
+]
+
+[project.scripts]
+uia = "uia.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/uia"]

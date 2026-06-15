@@ -1,0 +1,225 @@
+[
+  {
+    "university_name": "University of Toronto",
+    "scraped_at": "2026-06-15T15:01:53.614345Z",
+    "data": {
+      "about": {
+        "name": "",
+        "founding_year": null,
+        "overall_ranking": null,
+        "location": {
+          "city": "",
+          "country": ""
+        },
+        "institution_type": "unknown"
+      },
+      "tuition_fees": [],
+      "living_costs": {
+        "city": "Toronto",
+        "monthly_rent": null,
+        "monthly_food": null,
+        "monthly_transport": null,
+        "currency": "CAD",
+        "source_url": "https://future.utoronto.ca/fees, https://studentlife.utoronto.ca",
+        "estimate_basis": null
+      },
+      "scholarships": [],
+      "acceptance_rate": {
+        "overall_pct": null,
+        "undergraduate_pct": null,
+        "postgraduate_pct": null,
+        "year": null,
+        "source_url": "https://www.utoronto.ca/about-u-of-t"
+      },
+      "graduate_employment": {
+        "employed_within_6_months_pct": 84.0,
+        "data_source": "Statistics Canada 2025 Report",
+        "data_year": 2023,
+        "source_url": "https://careernavigator.studentlife.utoronto.ca/page/salary-data"
+      },
+      "average_salaries": [],
+      "visa_policies": {
+        "country": "Canada",
+        "visa_type": "Unknown",
+        "processing_time": null,
+        "key_requirements": [],
+        "source_url": "https://www.utoronto.ca"
+      },
+      "intake_deadlines": [],
+      "course_listings": []
+    },
+    "field_confidence": {
+      "about": 0.04999999999999999,
+      "tuition_fees": 0.04999999999999999,
+      "living_costs": 0.04999999999999999,
+      "scholarships": 0.04999999999999999,
+      "acceptance_rate": 0.04999999999999999,
+      "graduate_employment": 1.0,
+      "average_salaries": 0.04999999999999999,
+      "visa_policies": 0.04999999999999999,
+      "intake_deadlines": 0.04999999999999999,
+      "course_listings": 0.04999999999999999
+    },
+    "validation_flags": [
+      {
+        "field": "about",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "tuition_fees",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "living_costs",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "scholarships",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "acceptance_rate",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "average_salaries",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "visa_policies",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "intake_deadlines",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "course_listings",
+        "issue": "no data extracted",
+        "severity": "medium"
+      }
+    ]
+  },
+  {
+    "university_name": "University of Melbourne",
+    "scraped_at": "2026-06-15T15:03:58.182654Z",
+    "data": {
+      "about": {
+        "name": "University of Melbourne",
+        "founding_year": null,
+        "overall_ranking": null,
+        "location": {
+          "city": "Unknown",
+          "country": "Australia"
+        },
+        "institution_type": "unknown"
+      },
+      "tuition_fees": [],
+      "living_costs": {
+        "city": "Unknown",
+        "monthly_rent": null,
+        "monthly_food": null,
+        "monthly_transport": null,
+        "currency": "USD",
+        "source_url": "https://www.unimelb.edu.au",
+        "estimate_basis": null
+      },
+      "scholarships": [],
+      "acceptance_rate": {
+        "overall_pct": null,
+        "undergraduate_pct": null,
+        "postgraduate_pct": null,
+        "year": null,
+        "source_url": "https://www.unimelb.edu.au/about"
+      },
+      "graduate_employment": {
+        "employed_within_6_months_pct": null,
+        "data_source": null,
+        "data_year": null,
+        "source_url": "https://www.qilt.edu.au"
+      },
+      "average_salaries": [],
+      "visa_policies": {
+        "country": "Australia",
+        "visa_type": "Subclass 500 student visa",
+        "processing_time": null,
+        "key_requirements": [],
+        "source_url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500, https://students.unimelb.edu.au/student-support/international-student-support/international-students-faqs/visa-information"
+      },
+      "intake_deadlines": [],
+      "course_listings": []
+    },
+    "field_confidence": {
+      "about": 0.04999999999999999,
+      "tuition_fees": 0.04999999999999999,
+      "living_costs": 0.04999999999999999,
+      "scholarships": 0.04999999999999999,
+      "acceptance_rate": 0.04999999999999999,
+      "graduate_employment": 0.04999999999999999,
+      "average_salaries": 0.04999999999999999,
+      "visa_policies": 0.9,
+      "intake_deadlines": 0.04999999999999999,
+      "course_listings": 0.04999999999999999
+    },
+    "validation_flags": [
+      {
+        "field": "about",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "tuition_fees",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "living_costs",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "scholarships",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "acceptance_rate",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "graduate_employment",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "average_salaries",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "intake_deadlines",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "course_listings",
+        "issue": "no data extracted",
+        "severity": "medium"
+      },
+      {
+        "field": "visa_policies",
+        "issue": "Key requirements list is empty",
+        "severity": "low"
+      }
+    ]
+  }
+]

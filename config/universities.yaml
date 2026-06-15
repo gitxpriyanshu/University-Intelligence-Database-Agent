@@ -1,0 +1,89 @@
+# ==============================================================================
+# University Configuration Profiles
+# ==============================================================================
+# This file contains configuration profiles for target universities crawled by the
+# University Intelligence Database Agent (UIA).
+#
+# To add a new university (zero code changes required):
+# 1. Append a new entry under the `universities` list below.
+# 2. Provide the following fields:
+#    - name: The official common name of the university.
+#    - country: The country where the university is located (used for currency matching).
+#    - base_url: The primary homepage/domain URL of the university.
+#    - seed_urls: A dictionary mapping the 10 data categories to lists of target crawl seeds:
+#      - about
+#      - tuition_fees
+#      - living_costs
+#      - scholarships
+#      - acceptance_rate
+#      - graduate_employment
+#      - average_salaries
+#      - visa_policies
+#      - intake_deadlines
+#      - course_listings
+# 3. Run the CLI tool: `uia run` or `uia run --university "New University Name"`
+# ==============================================================================
+
+universities:
+  - name: "University of Toronto"
+    country: "Canada"
+    base_url: "https://www.utoronto.ca"
+    seed_urls:
+      about:
+        - "https://www.utoronto.ca/about-u-of-t"
+      tuition_fees:
+        - "https://future.utoronto.ca/fees"
+        - "https://planningandbudget.utoronto.ca/tuition-fee-lookup-tool/"
+      living_costs:
+        - "https://future.utoronto.ca/fees"
+        - "https://studentlife.utoronto.ca"
+      scholarships:
+        - "https://future.utoronto.ca/scholarships-international-students"
+        - "https://future.utoronto.ca/admission-awards"
+        - "https://future.utoronto.ca/pearson-scholarships"
+      acceptance_rate:
+        - "https://www.utoronto.ca/about-u-of-t"
+      graduate_employment:
+        - "https://careernavigator.studentlife.utoronto.ca/page/salary-data"
+        - "https://data.utoronto.ca/surveys/"
+      average_salaries:
+        - "https://careernavigator.studentlife.utoronto.ca/page/salary-data"
+      visa_policies:
+        - "https://future.utoronto.ca/study-permits"
+        - "https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit.html"
+      intake_deadlines:
+        - "https://future.utoronto.ca/deadlines"
+        - "https://future.utoronto.ca/timeline-international-student"
+      course_listings:
+        - "https://artsci.calendar.utoronto.ca/search-courses"
+
+  - name: "University of Melbourne"
+    country: "Australia"
+    base_url: "https://www.unimelb.edu.au"
+    seed_urls:
+      about:
+        - "https://www.unimelb.edu.au/about"
+      tuition_fees:
+        - "https://study.unimelb.edu.au/how-to-apply/fees"
+        - "https://study.unimelb.edu.au/how-to-apply/undergraduate-study/international-applications/fees-and-payments"
+        - "https://study.unimelb.edu.au/how-to-apply/graduate-coursework-study/international-applications/fees-and-payments"
+      living_costs:
+        - "https://study.unimelb.edu.au/how-to-apply/fees"
+      scholarships:
+        - "https://scholarships.unimelb.edu.au"
+        - "https://scholarships.unimelb.edu.au/awards/melbourne-international-undergraduate-scholarship"
+        - "https://scholarships.unimelb.edu.au/awards/graduate-research-scholarships"
+      acceptance_rate:
+        - "https://www.unimelb.edu.au/about"
+      graduate_employment:
+        - "https://www.qilt.edu.au"
+      average_salaries:
+        - "https://www.qilt.edu.au"
+      visa_policies:
+        - "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500"
+        - "https://students.unimelb.edu.au/student-support/international-student-support/international-students-faqs/visa-information"
+      intake_deadlines:
+        - "https://study.unimelb.edu.au/how-to-apply/undergraduate-study/international-applications/entry-requirements/important-dates"
+        - "https://study.unimelb.edu.au/how-to-apply/international-exchange-and-study-abroad-applications/important-dates"
+      course_listings:
+        - "https://handbook.unimelb.edu.au/search"

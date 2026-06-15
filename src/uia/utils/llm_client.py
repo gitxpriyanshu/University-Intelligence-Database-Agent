@@ -183,3 +183,45 @@ class LLMClient:
     async def close(self):
         """Closes the underlying httpx.AsyncClient."""
         await self.client.aclose()
+
+
+# ==============================================================================
+# StubLLMClient — used when GROQ_API_KEY is not set in the environment.
+#
+# To switch to real Groq extraction:
+#   1. Copy .env.example to .env
+#   2. Set GROQ_API_KEY=<your_key> inside .env
+#   3. Re-run `uia run` (without --stub) — main.py will auto-detect the key
+#      and instantiate the real LLMClient instead of this stub.
+# ==============================================================================
+
+
+class StubLLMClient:
+    """A no-op drop-in replacement for LLMClient used when no API key is available.
+
+    Returns an empty dict for every extraction call. The orchestrator treats an
+    empty-dict response as "nothing found" and falls back to typed defaults from
+    _get_default_for_type(), so all 10 top-level UniversityRecord fields are still
+    present in the output (just unpopulated). The validator then flags each empty
+    field as severity="medium" / confidence=0.3, which is correct behaviour and
+    not a bug — it signals that the extraction stage was skipped, not that the
+    agent failed structurally.
+    """
+
+    async def extract_structured(
+        self,
+        page_text: str,
+        target_schema_description: str,
+        field_name: str,
+        source_url: str,
+    ) -> Dict[str, Any]:
+        """Immediately returns an empty dict — no API call is made."""
+        logger.info(
+            f"[StubLLMClient] Skipping LLM extraction for field '{field_name}' "
+            "(GROQ_API_KEY not set — using stub mode)."
+        )
+        return {}
+
+    async def close(self) -> None:
+        """No-op cleanup (stub holds no connections)."""
+        pass

@@ -30,6 +30,7 @@ class FetchResult:
     html: str
     fetched_at: datetime
     error: Optional[str] = None
+    clean_text: str = ""
 
 
 class HttpResponseError(Exception):

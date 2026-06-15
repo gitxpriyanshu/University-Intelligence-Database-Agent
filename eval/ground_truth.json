@@ -1,0 +1,58 @@
+[
+  {
+    "university_name": "University of Toronto",
+    "data": {
+      "about": {
+        "founding_year": 1827,
+        "institution_type": "public"
+      },
+      "tuition_fees": [
+        {
+          "international_fee": 45000.0,
+          "currency": "CAD"
+        }
+      ],
+      "acceptance_rate": {
+        "overall_pct": 43.0
+      },
+      "course_listings": [
+        {
+          "code": "CSC108",
+          "title": "Introduction to Computer Programming"
+        },
+        {
+          "code": "CSC148",
+          "title": "Introduction to Computer Science"
+        }
+      ]
+    }
+  },
+  {
+    "university_name": "University of Melbourne",
+    "data": {
+      "about": {
+        "founding_year": 1853,
+        "institution_type": "public"
+      },
+      "tuition_fees": [
+        {
+          "international_fee": 40000.0,
+          "currency": "AUD"
+        }
+      ],
+      "acceptance_rate": {
+        "overall_pct": 70.0
+      },
+      "course_listings": [
+        {
+          "code": "COMP10001",
+          "title": "Foundations of Computing"
+        },
+        {
+          "code": "COMP10002",
+          "title": "Foundations of Algorithms"
+        }
+      ]
+    }
+  }
+]

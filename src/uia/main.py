@@ -20,6 +20,7 @@ from uia.agent.orchestrator import run_for_university, _get_default_for_type, TY
 from uia.agent.planner import UniversityConfig
 from uia.agent.validator import validate as validate_record
 from uia.models.schema import ScrapedRecord, UniversityRecord, ValidationFlag
+from uia.utils.cache import PageCache
 from uia.utils.llm_client import LLMClient, StubLLMClient
 
 app = typer.Typer(help="University Intelligence Database Agent (UIA) CLI")
@@ -141,6 +142,15 @@ def run(
             "To use live extraction, set GROQ_API_KEY in .env and omit this flag."
         ),
     ),
+    incremental: bool = typer.Option(
+        False,
+        "--incremental",
+        help=(
+            "Enable incremental crawling and extraction using page hash cache. "
+            "Skips re-extraction of pages that haven't changed since the last run "
+            "and reuses the previously extracted values from the last universities.json."
+        ),
+    ),
 ):
     """Run the university scraping, extraction, and validation pipeline.
 
@@ -196,6 +206,28 @@ def run(
         return
 
     # ------------------------------------------------------------------ #
+    # INCREMENTAL RUN INITIALIZATION
+    # ------------------------------------------------------------------ #
+    previous_records: dict[str, ScrapedRecord] = {}
+    cache = None
+    if incremental:
+        console.print("[green]✔ Incremental mode enabled. Initializing page cache...[/green]")
+        cache = PageCache()
+        json_path = os.path.join("data/output", "universities.json")
+        if os.path.exists(json_path):
+            try:
+                with open(json_path, "r") as f:
+                    for entry in json.load(f):
+                        try:
+                            parsed = ScrapedRecord(**entry)
+                            previous_records[parsed.university_name] = parsed
+                        except Exception:
+                            pass
+                console.print(f"[green]✔ Loaded previous records for {len(previous_records)} universities.[/green]")
+            except Exception as e:
+                console.print(f"[yellow]Warning: could not read previous outputs for incremental run ({e})[/yellow]")
+
+    # ------------------------------------------------------------------ #
     # LIVE MODE — real HTTP scraping + LLM extraction
     # ------------------------------------------------------------------ #
     api_key = os.getenv("GROQ_API_KEY", "")
@@ -214,7 +246,13 @@ def run(
         scraped = []
         for config in configs:
             console.print(f"[bold green]▶ Scraping {config.name}...[/bold green]")
-            record = await run_for_university(config, llm_client)
+            prev_record = previous_records.get(config.name)
+            record = await run_for_university(
+                config,
+                llm_client,
+                cache=cache,
+                previous_record=prev_record,
+            )
             scraped.append(record)
             console.print(f"[green]✔ Finished {config.name}.[/green]")
         return scraped

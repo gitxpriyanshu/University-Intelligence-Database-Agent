@@ -5,11 +5,12 @@ JavaScript rendering fallbacks with Playwright and HTML text cleaning.
 """
 import logging
 from datetime import datetime, timezone
-from typing import Dict, List
+from typing import Dict, List, Optional
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 from uia.agent.planner import CrawlPlan
+from uia.utils.cache import PageCache
 from uia.utils.http_client import FetchResult, ResilientHttpClient
 
 logger = logging.getLogger(__name__)
@@ -49,6 +50,7 @@ class Crawler:
         self,
         plan: CrawlPlan,
         http_client: ResilientHttpClient,
+        cache: Optional[PageCache] = None,
     ) -> Dict[str, List[FetchResult]]:
         """Downloads all pages detailed in a CrawlPlan.
 
@@ -123,8 +125,15 @@ class Crawler:
                     # Extract clean visible text if the fetch was successful
                     if result and not result.error:
                         result.clean_text = self._clean_html(result.html)
+                        if cache:
+                            result.has_changed = cache.has_changed(result.url, result.clean_text)
+                            if result.has_changed:
+                                cache.update(result.url, result.clean_text)
+                        else:
+                            result.has_changed = True
                     elif result:
                         result.clean_text = ""
+                        result.has_changed = True
 
                     category_results.append(result)
 

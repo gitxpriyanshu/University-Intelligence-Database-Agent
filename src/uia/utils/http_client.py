@@ -31,6 +31,8 @@ class FetchResult:
     fetched_at: datetime
     error: Optional[str] = None
     clean_text: str = ""
+    has_changed: bool = True
+
 
 
 class HttpResponseError(Exception):

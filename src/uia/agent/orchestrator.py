@@ -8,7 +8,7 @@ import json
 import logging
 import traceback
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
 from pydantic import TypeAdapter
 
@@ -32,6 +32,7 @@ from uia.models.schema import (
     ValidationFlag,
     VisaPolicy,
 )
+from uia.utils.cache import PageCache
 from uia.utils.http_client import ResilientHttpClient
 from uia.utils.llm_client import LLMClient
 
@@ -95,7 +96,12 @@ def _get_default_for_type(target_type: Any, config: UniversityConfig) -> Any:
 
 
 
-async def run_for_university(config: UniversityConfig, llm_client: LLMClient) -> ScrapedRecord:
+async def run_for_university(
+    config: UniversityConfig,
+    llm_client: LLMClient,
+    cache: Optional[PageCache] = None,
+    previous_record: Optional[ScrapedRecord] = None,
+) -> ScrapedRecord:
     """Orchestrates the scraping, crawling, and AI-extraction loop for a single university.
 
     Guarantees top-level fault tolerance so that execution errors in one university
@@ -104,6 +110,8 @@ async def run_for_university(config: UniversityConfig, llm_client: LLMClient) ->
     Args:
         config: The target university config parameters and seed paths.
         llm_client: The active Groq client interface for structured extraction.
+        cache: Optional PageCache instance to check and record page hashes.
+        previous_record: Optional ScrapedRecord from the previous run to reuse data from.
 
     Returns:
         A ScrapedRecord containing the compiled intelligence, confidence metrics, and flags.
@@ -123,13 +131,32 @@ async def run_for_university(config: UniversityConfig, llm_client: LLMClient) ->
 
         # 3. Execute fetching of target URLs (Crawl Execution & JS rendering)
         crawler = Crawler()
-        crawl_results = await crawler.fetch_plan(plan, http_client)
+        crawl_results = await crawler.fetch_plan(plan, http_client, cache=cache)
 
         # 4. Perform structured AI extraction across the 10 data categories
         extracted_data: Dict[str, Any] = {}
 
         for category, target_type in TYPE_MAP.items():
             results = crawl_results.get(category, [])
+
+            # Check if we can reuse the previously extracted data for this category
+            can_reuse = False
+            if previous_record and cache:
+                # Reuse if:
+                # 1. We crawled urls for this category
+                # 2. None of the successfully fetched pages for this category have changed
+                # 3. The previous record has this category in its data
+                if results and all(not getattr(res, "has_changed", True) for res in results):
+                    if hasattr(previous_record.data, category):
+                        can_reuse = True
+
+            if can_reuse and previous_record:
+                logger.info(
+                    f"[{config.name}] Reusing previously extracted values for category '{category}' (no page changes)"
+                )
+                extracted_data[category] = getattr(previous_record.data, category)
+                continue
+
             clean_texts = [res.clean_text for res in results if res and not res.error and res.clean_text]
             combined_text = "\n\n".join(clean_texts)
 

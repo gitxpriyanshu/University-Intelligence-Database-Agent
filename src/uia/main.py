@@ -271,6 +271,17 @@ def run(
 
 
 @app.command()
+def serve(
+    host: str = typer.Option("0.0.0.0", help="Bind socket to this host."),
+    port: int = typer.Option(8000, help="Bind socket to this port."),
+):
+    """Start the FastAPI query server on port 8000."""
+    import uvicorn
+    console.print(f"[green]Starting query server at http://{host}:{port}...[/green]")
+    uvicorn.run("uia.api.server:app", host=host, port=port, log_level="info")
+
+
+@app.command()
 def version():
     """Print the version of the UIA CLI."""
     console.print("UIA CLI v0.1.0")

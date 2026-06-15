@@ -14,6 +14,7 @@ from pydantic import TypeAdapter
 
 from uia.agent.crawler import Crawler
 from uia.agent.planner import Planner, UniversityConfig
+from uia.agent.validator import validate as validate_record
 from uia.models.schema import (
     AboutInfo,
     AcceptanceRate,
@@ -92,17 +93,6 @@ def _get_default_for_type(target_type: Any, config: UniversityConfig) -> Any:
 
     return None
 
-
-def placeholder_validate(record: UniversityRecord) -> Tuple[Dict[str, float], List[ValidationFlag]]:
-    """Placeholder validator function.
-
-    To be implemented fully in the next prompt. Currently returns full confidence
-    and empty validation flags.
-    """
-    confidence: Dict[str, float] = {}
-    for field in record.model_fields:
-        confidence[field] = 1.0
-    return confidence, []
 
 
 async def run_for_university(config: UniversityConfig, llm_client: LLMClient) -> ScrapedRecord:
@@ -184,8 +174,8 @@ async def run_for_university(config: UniversityConfig, llm_client: LLMClient) ->
         # 5. Compile the UniversityRecord
         record = UniversityRecord(**extracted_data)
 
-        # 6. Apply Validator (currently placeholder)
-        confidence, validation_flags = placeholder_validate(record)
+        # 6. Apply Validator
+        confidence, validation_flags = validate_record(record, config.country)
 
         return ScrapedRecord(
             university_name=config.name,
